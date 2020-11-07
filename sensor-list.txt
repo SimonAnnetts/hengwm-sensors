@@ -1,0 +1,12 @@
+# This is the sensors list file.
+# Each line must be in the format:
+# sensor_id,sensor_name,group_id,line_colour
+
+# New Sensor:
+28-000004ef0a03,Sensor 1,upstairs,#e41a1c
+# New Sensor:
+28-000004ef1dc9,Sensor 2,upstairs,#377eb8
+# New Sensor:
+28-000005271f19,Sensor 3,upstairs,#4daf4a
+# New Sensor:
+28-0000052738b4,Sensor 4,upstairs,#984ea3

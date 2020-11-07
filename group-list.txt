@@ -1,0 +1,12 @@
+# This is a list of graph groups - 
+# sensors belonging to a particular group will be added to the group's graph
+# Format:
+# group_id,group_name,min,max
+
+ungrouped,Ungrouped,-30,100
+upstairs,Upstairs,15,25
+downstairs,Downstairs,0,30
+heating,Heating,0,90
+hotwater,Hot Water,0,90
+coldwater,Cold Water,0,25
+outside,Outside,-20,50
