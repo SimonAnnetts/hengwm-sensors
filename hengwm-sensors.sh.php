@@ -176,6 +176,7 @@ function update_rrd_data($id,$value) {
 
 function graph_rrd_data($group_id,$graph_data) {
     global $dir,$sunr,$suns,$dusk,$dawn,$sun,$twilight,$verbose;
+    $date=date('Y-m-d H:i:s');
     $images=array();
     $periods=array(
         'One Day'=>array('name'=>'day','start'=>'end-1days'),
@@ -196,8 +197,8 @@ function graph_rrd_data($group_id,$graph_data) {
         $period_name=$period_data['name'];
         $cmd="
 rrdtool graph '${dir}/www/img/${group_id}-${period_name}.png' \
---imginfo '<IMG SRC=\"img/%s\" WIDTH=\"%lu\" HEIGHT=\"%lu\" ALT=\"${group} Temperature (${period})\">' \
---title '${group} Temperature (${period})' \
+--imginfo '<IMG SRC=\"img/%s\" WIDTH=\"%lu\" HEIGHT=\"%lu\" TITLE=\"${group} Temperatures (${period}) - Last Reading: ${date}\">' \
+--title '<b>${group} Temperatures (${period})</b> - Last Reading: ${date}' \
 --vertical-label 'Degrees C' \
 --width '600' \
 --height '250' \
@@ -301,7 +302,7 @@ function write_index_page($images) {
         $pillsdiv.='
         </div>';
         $content.=sprintf('
-    <div class="col-md-6 p-2 m-2 border">%s%s
+    <div class="col-md-6 border">%s%s
     </div>',$pillsnav,$pillsdiv);
         $cols++;
         if($cols%2===0) $content.="</div>\n<div class=\"row p-1\">\n";

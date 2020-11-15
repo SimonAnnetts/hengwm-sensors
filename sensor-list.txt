@@ -2,11 +2,45 @@
 # Each line must be in the format:
 # sensor_id,sensor_name,group_id,line_colour
 
-# New Sensor:
-28-000004ef0a03,Sensor 1,upstairs,#e41a1c
-# New Sensor:
-28-000004ef1dc9,Sensor 2,upstairs,#377eb8
-# New Sensor:
-28-000005271f19,Sensor 3,upstairs,#4daf4a
-# New Sensor:
-28-0000052738b4,Sensor 4,upstairs,#984ea3
+## DOWNSTAIRS
+# Kitchen:
+28-0000052738b4,Kitchen,downstairs,#984ea3
+# Living Room:
+# Porch:
+
+## UPSTAIRS
+# Master Bedroom
+28-011935e4606c,Master Bedroom,upstairs,#e41a1c
+# Bathroom
+# Landing/Office
+28-011935ef4449,Landing,upstairs,#984ea3
+# Front Bedroom
+# Spare Bedroom
+
+## HEATING
+# Boiler In:
+28-000004ef57d6,Boiler Return,heating,#e41a1c
+# Boiler Out:
+28-00000527f5c2,Boiler Send,heating,#377eb8
+
+## HOT WATER
+# Hot Tank Top:
+28-0000052785cd,Hot Tank Top,hotwater,#ff7f00
+# Hot Tank 3/4:
+28-0000052762f7,Hot Tank 3/4,hotwater,#984ea3
+# Hot Tank 1/2 (Coil Top):
+28-000004ef0a03,Hot Tank 1/2,hotwater,#e41a1c
+# Hot Tank 1/2 (Coil Btm):
+28-000005271f19,Hot Tank 1/4,hotwater,#4daf4a
+
+## COLD WATER
+# Water Pump Tank:
+28-000005295241,Water Pump Tank,coldwater,#4daf4a
+# Water Pump Ambient:
+28-000004ef1dc9,Water Pump Ambient,coldwater,#377eb8
+
+## OUTSIDE
+# Balcony:
+28-00000527c911,Balcony,outside,#e41a1c
+# Patio
+

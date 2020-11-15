@@ -3,10 +3,10 @@
 # Format:
 # group_id,group_name,min,max
 
-ungrouped,Ungrouped,-30,100
-upstairs,Upstairs,15,25
-downstairs,Downstairs,0,30
 heating,Heating,0,90
-hotwater,Hot Water,0,90
-coldwater,Cold Water,0,25
+hotwater,Hot Water,10,70
 outside,Outside,-20,50
+downstairs,Downstairs,0,30
+upstairs,Upstairs,15,25
+coldwater,Cold Water,0,25
+ungrouped,Ungrouped,-30,100
