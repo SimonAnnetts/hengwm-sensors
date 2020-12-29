@@ -221,7 +221,7 @@ rrdtool graph '${dir}/www/img/${group_id}-${period_name}.png' \
             $file=$dir.'/data/'.$id.'.rrd';
             $cmd.="DEF:${vname}=${file}:data:AVERAGE \ \n";
             if($g==1) {
-                if($period_name=='day' or $period_name=='week') {
+                if($period_name=='day' or $period_name=='week' or $period_name=='quarter') {
                     $cmd.="CDEF:nightplus=LTIME,86400,%,${sunr},LT,INF,LTIME,86400,%,${suns},GT,INF,UNKN,${vname},*,IF,IF \ \n";
                     $cmd.="CDEF:nightminus=LTIME,86400,%,${sunr},LT,NEGINF,LTIME,86400,%,${suns},GT,NEGINF,UNKN,${vname},*,IF,IF \ \n";
                     $cmd.="AREA:nightplus#F0F0F8 \ \n";
@@ -374,7 +374,7 @@ function enumerate_temp_sensors() {
                     $datafile=$devicenode.'/'.$l.'/temperature';
                     if(file_exists($datafile)) {
                         $data=trim(`cat ${datafile} 2>&1`);
-                        if(preg_match('/^[0-9\.]+$/',$data)) $sensors[$l]=$data;
+                        if(preg_match('/^[0-9\-]+$/',$data)) $sensors[$l]=$data;
                     }
                 }
             }

@@ -5,7 +5,7 @@
 
 heating,Heating,0,90
 hotwater,Hot Water,10,70
-outside,Outside,-20,50
+outside,Outside,-5,30
 downstairs,Downstairs,0,30
 upstairs,Upstairs,15,25
 coldwater,Cold Water,0,25
