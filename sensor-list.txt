@@ -22,6 +22,8 @@
 28-000004ef57d6,Boiler Return,heating,#e41a1c
 # Boiler Out:
 28-00000527f5c2,Boiler Send,heating,#377eb8
+# PI internal:
+pi_internal,PI CPU Temp,heating,#984ea3
 
 ## HOT WATER
 # Hot Tank Top:

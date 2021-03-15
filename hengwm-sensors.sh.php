@@ -14,7 +14,7 @@ function usage() {
 hengwn-sensors.sh.php OPTIONS
 
 -h          This Help Text
--d          Set i2c device e.g. i2c-2 (defaults to 12c-2 if not set)
+-d          Set i2c device e.g. i2c-2 (defaults to i2c-2 if not set)
 -p          Probe for any new sensors
 -r          Read all of the sensors and process the data
 -g          Graph the data that's been collected
@@ -83,6 +83,9 @@ function get_sensor_definitions_by_id() {
         if(preg_match('/^([0-9a-f]{2}\-[0-9a-f]{12}),(.*?),(.*?),(.*?)$/',trim($s),$m)) {
             $sensors[$m[1]]=array('id'=>$m[1],'name'=>trim($m[2]),'group'=>trim($m[3]),'colour'=>trim($m[4]));
         }
+        if(preg_match('/^(pi_internal),(.*?),(.*?),(.*?)$/',trim($s),$m)) {
+            $sensors[$m[1]]=array('id'=>$m[1],'name'=>trim($m[2]),'group'=>trim($m[3]),'colour'=>trim($m[4]));
+        }
     }
     return $sensors;
 }
@@ -92,6 +95,9 @@ function get_sensor_definitions_by_group() {
     $sensors=array();
     foreach($sensor_list as $s) {
         if(preg_match('/^([0-9a-f]{2}\-[0-9a-f]{12}),(.*?),(.*?),(.*?)$/',trim($s),$m)) {
+            $sensors[trim($m[3])][]=array('id'=>$m[1],'name'=>trim($m[2]),'group'=>trim($m[3]),'colour'=>trim($m[4]));
+        }
+        if(preg_match('/^(pi_internal),(.*?),(.*?),(.*?)$/',trim($s),$m)) {
             $sensors[trim($m[3])][]=array('id'=>$m[1],'name'=>trim($m[2]),'group'=>trim($m[3]),'colour'=>trim($m[4]));
         }
     }
@@ -358,7 +364,7 @@ function scan_for_devices($i2c_dev,$start='03',$stop='77') {
 }
 
 function check_connected_devices($devices) {
-    if(!isset($devices['18']) or $devices['18']!='UU') error("Error: I2C device on address 0x18 is not enabled!"); 
+    // if(!isset($devices['18']) or $devices['18']!='UU') error("Error: I2C device on address 0x18 is not enabled!"); 
     if(!isset($devices['1f']) or $devices['1f']!='UU') error("Error: I2C device on address 0x1f is not enabled!");
 }
 
@@ -380,6 +386,11 @@ function enumerate_temp_sensors() {
             }
         }
     }
+    $data=trim(`/opt/vc/bin/vcgencmd measure_temp`);
+    if(preg_match('/^temp\=([0-9\.\-]+?)\'C$/',$data,$i)) {
+        $data=(float)$i[1]*1000;
+        $sensors['pi_internal']=$data;
+    }
     return $sensors;
 }
 
@@ -394,7 +405,7 @@ $argv=$_SERVER["argv"]; //$argv is an array
 $args=parse_args($argc,$argv);
 if(count($args)<1) error(usage());
 if(isset($args['h']) or isset($args['help'])) error(usage());
-if(isset($args['d'])) $i2c_dev=$args['d']; else $i2c_dev='i2c-2';
+if(isset($args['d'])) $i2c_dev=$args['d']; else $i2c_dev='i2c-1';
 if(isset($args['v'])) $verbose=true; else $verbose=false;
 $dir=__DIR__;
 
@@ -404,6 +415,7 @@ $dir=__DIR__;
 
 $devices=scan_for_devices($i2c_dev);
 if(false===$devices) error("No I2C devices found on interface ${i2c_dev} !");
+if($verbose) print "Devices found:\n".print_r($devices,1);
 
 $sensor_list=array();
 $group_list=array();
@@ -412,11 +424,11 @@ read_group_list();
 get_sunrise_sunset();
 
 if(isset($args['p'])) { //probe
-    `echo 0x18>/sys/bus/i2c/devices/${i2c_dev}/delete_device 2>/dev/null`;
+    // `echo 0x18>/sys/bus/i2c/devices/${i2c_dev}/delete_device 2>/dev/null`;
     `echo 0x1f>/sys/bus/i2c/devices/${i2c_dev}/delete_device 2>/dev/null`;
     `echo ds2482 0x1f>/sys/bus/i2c/devices/${i2c_dev}/new_device 2>/dev/null`;
-    `echo ds2482 0x18>/sys/bus/i2c/devices/${i2c_dev}/new_device 2>/dev/null`;
-    sleep(1);
+    // `echo ds2482 0x18>/sys/bus/i2c/devices/${i2c_dev}/new_device 2>/dev/null`;
+    sleep(2);
     check_connected_devices($devices);
     $sensors=enumerate_temp_sensors();
     $added=0;
@@ -426,7 +438,7 @@ if(isset($args['p'])) { //probe
             $added++;
         }
     }
-    if($added) print "New sensor(s) were added. please edit the sensors-list.txt file and set the sensor's name/location!\n";
+    if($added) print "New sensor(s) were added. please edit the sensor-list.txt file and set the sensor's name/location!\n";
     exit(0);
 }
 
